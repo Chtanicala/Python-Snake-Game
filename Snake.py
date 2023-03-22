@@ -3,9 +3,9 @@ import random
 
 GAME_WIDTH = 700
 GAME_HEIGHT = 700
-SPEED = 50
+SPEED = 75
 SPACE_SIZE = 50
-BODY_PARTS = 20
+BODY_PARTS = 3
 SNAKE_COLOR = "green"
 FOOD_COLOR = "red"
 BACKGROUND_COLOR = "black"
@@ -110,7 +110,10 @@ def change_direction(new_direction):
             return True
 
 def game_over():
-    pass
+    canvas.delete(ALL)
+    canvas.create_text(canvas.winfo_width()/2,canvas.winfo_height()/2,
+                       text="Game Over",
+                       font=("Comic Sans", 70), fill="Red", tag="Game Over")
 
 def check_collision(snake):
     x, y = snake.coordinates[0]

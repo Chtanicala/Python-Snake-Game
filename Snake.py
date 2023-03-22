@@ -5,7 +5,7 @@ GAME_WIDTH = 700
 GAME_HEIGHT = 700
 SPEED = 50
 SPACE_SIZE = 50
-BODY_PARTS = 3
+BODY_PARTS = 20
 SNAKE_COLOR = "green"
 FOOD_COLOR = "red"
 BACKGROUND_COLOR = "black"
@@ -105,8 +105,11 @@ def change_direction(new_direction):
     elif new_direction == "down":
         if direction != 'up':
             direction = new_direction
+    for body_part in snake.coordinates[1:]:
+        if x == body_part[0] and y == body_part[1]:
+            return True
 
-def game_over(snake):
+def game_over():
     pass
 
 def check_collision(snake):

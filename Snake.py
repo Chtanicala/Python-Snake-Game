@@ -15,18 +15,12 @@ class Snake:
     def __init__(self):
 
         self.body_size = BODY_PARTS
-
         self.coordinates = []
-
         self.squares = []
-
-
 
         for i in range(0, BODY_PARTS):
 
             self.coordinates.append([0, 0])
-
-
 
         for x, y in self.coordinates:
 
@@ -34,41 +28,19 @@ class Snake:
 
             self.squares.append(square)
 
-
-
-
-
 class Food:
-
-
 
     def __init__(self):
 
-
-
         x = random.randint(0, (GAME_WIDTH / SPACE_SIZE)-1) * SPACE_SIZE
-
         y = random.randint(0, (GAME_HEIGHT / SPACE_SIZE) - 1) * SPACE_SIZE
-
-
-
         self.coordinates = [x, y]
-
-
 
         canvas.create_oval(x, y, x + SPACE_SIZE, y + SPACE_SIZE, fill=FOOD_COLOR, tag="food")
 
-
-
-
-
 def next_turn(snake, food):
 
-
-
     x, y = snake.coordinates[0]
-
-
 
     if direction == "up":
 
@@ -86,60 +58,35 @@ def next_turn(snake, food):
 
         x += SPACE_SIZE
 
-
-
     snake.coordinates.insert(0, (x, y))
-
-
 
     square = canvas.create_rectangle(x, y, x + SPACE_SIZE, y + SPACE_SIZE, fill=SNAKE_COLOR)
 
-
-
     snake.squares.insert(0, square)
-
-
 
     if x == food.coordinates[0] and y == food.coordinates[1]:
 
-
-
         global score
-
-
 
         score += 1
 
-
-
         label.config(text="Score:{}".format(score))
-
-
 
         canvas.delete("food")
 
-
-
         food = Food()
-
-
 
     else:
 
-
-
         del snake.coordinates[-1]
-
-
 
         canvas.delete(snake.squares[-1])
 
-
-
         del snake.squares[-1]
-
-
-    window.after(SPEED, next_turn, snake, food)
+    if check_collision(snake):
+        game_over()
+    else:
+        window.after(SPEED, next_turn, snake, food)
 
 
 
@@ -159,11 +106,16 @@ def change_direction(new_direction):
         if direction != 'up':
             direction = new_direction
 
-def game_over():
+def game_over(snake):
     pass
 
-def check_collision():
-    pass
+def check_collision(snake):
+    x, y = snake.coordinates[0]
+    
+    if x < 0 or x >= GAME_WIDTH:
+        return True
+    if y < 0 or y >= GAME_WIDTH:
+        return True
 
 window = Tk()
 window.title("Snake Game")
